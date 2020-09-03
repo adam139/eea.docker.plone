@@ -1,4 +1,4 @@
-FROM plone:5.1.6
+FROM registry.cn-hangzhou.aliyuncs.com/plone/plone-debian:5.1.6
 LABEL maintainer="www.315ok.org Tang Yuejun <568066794@qq.com>"
 
 ENV GRAYLOG=logcentral.eea.europa.eu:12201 \
