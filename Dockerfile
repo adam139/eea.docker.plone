@@ -7,7 +7,9 @@ ENV GRAYLOG=logcentral.eea.europa.eu:12201 \
 RUN mv /docker-entrypoint.sh /plone-entrypoint.sh \
  && mv /docker-initialize.py /plone_initialize.py \
  && mv /plone/instance/versions.cfg /plone/instance/plone-versions.cfg \
- && mv -v /plone/instance/buildout.cfg /plone/instance/plone-buildout.cfg
+ && mv -v /plone/instance/buildout.cfg /plone/instance/plone-buildout.cfg \
+ && sed -i "s@http://deb.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list \
+ && sed -i "s@http://security.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list
 
 COPY src/docker/* /
 COPY src/plone/* /plone/instance/
