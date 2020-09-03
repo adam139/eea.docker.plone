@@ -18,6 +18,8 @@ buildDeps="
   libyaml-dev
   libz-dev
   zlib1g-dev
+  libaio1
+  alien
 "
 
 runDeps="
@@ -39,6 +41,7 @@ runDeps="
   tex-gyre
   vim
   wv
+  libaio1
 "
 
 echo "========================================================================="
