@@ -8,8 +8,6 @@ buildDeps="
   libc6-dev
   libexpat1-dev
   libjpeg-dev
-  libldap2-dev
-  libmemcached-dev
   libpq-dev
   libreadline-dev
   libsasl2-dev
@@ -20,7 +18,6 @@ buildDeps="
   libyaml-dev
   libz-dev
   zlib1g-dev
-  subversion
 "
 
 runDeps="
@@ -30,7 +27,6 @@ runDeps="
   graphviz
   gsfonts
   libjpeg62
-  libmemcached11
   libpng16-16
   libpq5
   librsvg2-bin
@@ -40,7 +36,6 @@ runDeps="
   libyaml-0-2
   lynx
   poppler-utils
-  subversion
   tex-gyre
   vim
   wv
