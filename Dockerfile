@@ -1,5 +1,5 @@
 FROM plone:5.1.6
-LABEL maintainer="EEA: IDM2 A-Team <eea-edw-a-team-alerts@googlegroups.com>"
+LABEL maintainer="www.315ok.org Tang Yuejun <568066794@qq.com>"
 
 ENV GRAYLOG=logcentral.eea.europa.eu:12201 \
     GRAYLOG_FACILITY=eea.docker.plone
