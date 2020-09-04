@@ -19,7 +19,7 @@ buildDeps="
   libz-dev
   zlib1g-dev
   libaio1
-  alien
+  unzip
 "
 
 runDeps="
@@ -52,9 +52,21 @@ apt-get update
 apt-get install -y --no-install-recommends $buildDeps
 
 echo "========================================================================="
+echo "Ininstalling Oracle instant client"
+echo "========================================================================="
+mkdir -p /opt/oracle
+cd /opt/oracle
+mv /*.zip .
+unzip instantclient-basic-linux.x64-19.8.0.0.0dbru.zip
+unzip instantclient-sdk-linux.x64-19.8.0.0.0dbru.zip
+sh -c "echo /opt/oracle/instantclient_19_8 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+ldconfig
+export $ORACLE_HOME = /opt/oracle/instantclient_19_8
+export $LD_LIBRARY_PATH = $ORACLE_HOME:$LD_LIBRARY_PATH
+
+echo "========================================================================="
 echo "Running buildout -c buildout.cfg"
 echo "========================================================================="
-
 buildout -c buildout.cfg
 
 echo "========================================================================="
