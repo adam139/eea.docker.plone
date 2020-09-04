@@ -24,21 +24,16 @@ buildDeps="
 
 runDeps="
   curl
-  ghostscript
   git
-  graphviz
-  gsfonts
   libjpeg62
   libpng16-16
   libpq5
-  librsvg2-bin
   libssl1.0-dev
   libxml2
   libxslt1.1
   libyaml-0-2
   lynx
   poppler-utils
-  tex-gyre
   vim
   wv
   libaio1
@@ -52,6 +47,14 @@ apt-get update
 apt-get install -y --no-install-recommends $buildDeps
 
 echo "========================================================================="
+echo "Ininstalling global paython packages"
+echo "========================================================================="
+pip install -i https://mirrors.aliyun.com/pypi/simple/ redis==2.10.5
+pip install -i https://mirrors.aliyun.com/pypi/simple/ numpy==1.10.4
+pip install -i https://mirrors.aliyun.com/pypi/simple/ bokeh==1.0.0
+pip install -i https://mirrors.aliyun.com/pypi/simple/ cython pandas==0.17.1
+
+echo "========================================================================="
 echo "Ininstalling Oracle instant client"
 echo "========================================================================="
 mkdir -p /opt/oracle
@@ -61,13 +64,23 @@ unzip instantclient-basic-linux.x64-19.8.0.0.0dbru.zip
 unzip instantclient-sdk-linux.x64-19.8.0.0.0dbru.zip
 sh -c "echo /opt/oracle/instantclient_19_8 > /etc/ld.so.conf.d/oracle-instantclient.conf"
 ldconfig
-export $ORACLE_HOME = /opt/oracle/instantclient_19_8
-export $LD_LIBRARY_PATH = $ORACLE_HOME:$LD_LIBRARY_PATH
+export ORACLE_HOME=/opt/oracle/instantclient_19_8
+export LD_LIBRARY_PATH=$ORACLE_HOME:$LD_LIBRARY_PATH
+rm -rf *.zip
 
 echo "========================================================================="
-echo "Running buildout -c buildout.cfg"
+echo "untar src.tgz"
 echo "========================================================================="
-buildout -c buildout.cfg
+
+cd /
+tar -zxf src.tgz -C /plone/instance/
+rm src.tgz
+echo "========================================================================="
+echo "Running buildout -c buildout_emc.cfg"
+echo "========================================================================="
+
+cd /plone/instance
+buildout -Nvvv -c buildout.cfg
 
 echo "========================================================================="
 echo "Unininstalling $buildDeps"
@@ -91,35 +104,7 @@ rm -rf /var/lib/apt/lists/*
 rm -rf /plone/buildout-cache/downloads/*
 rm -rf /tmp/*
 
-echo "========================================================================="
-echo "Fixing permissions..."
-echo "========================================================================="
 
-mkdir -p /data/log
-
-touch /data/log/instance.log
-touch /data/log/instance-Z2.log
-
-touch /data/log/standalone.log
-touch /data/log/standalone-Z2.log
-
-touch /data/log/zeo_client.log
-touch /data/log/zeo_client-Z2.log
-
-touch /data/log/zeo_async.log
-touch /data/log/zeo_async-Z2.log
-
-touch /data/log/rel_async.log
-touch /data/log/rel_async-Z2.log
-
-touch /data/log/rel_client.log
-touch /data/log/rel_client-Z2.log
-
-# BBB - Backward compatibility
-mkdir -p /plone/instance/var
-rm -rf /plone/instance/var/log
-ln -s /data/log /plone/instance/var/log
-# BBB - end
 
 # Fix permissions
 find /data  -not -user plone -exec chown plone:plone {} \+
