@@ -8,9 +8,7 @@ buildDeps="
   libc6-dev
   libexpat1-dev
   libjpeg-dev
-  libpq-dev
   libreadline-dev
-  libsasl2-dev
   libssl-dev
   libxml2-dev
   libxslt-dev
@@ -24,19 +22,17 @@ buildDeps="
 
 runDeps="
   curl
-  git
   libjpeg62
   libpng16-16
-  libpq5
   libssl1.0-dev
   libxml2
   libxslt1.1
   libyaml-0-2
   lynx
   poppler-utils
-  vim
   wv
   libaio1
+  vim
 "
 
 echo "========================================================================="
@@ -53,6 +49,7 @@ pip install -i https://mirrors.aliyun.com/pypi/simple/ redis==2.10.5
 pip install -i https://mirrors.aliyun.com/pypi/simple/ numpy==1.10.4
 pip install -i https://mirrors.aliyun.com/pypi/simple/ bokeh==1.0.0
 pip install -i https://mirrors.aliyun.com/pypi/simple/ cython pandas==0.17.1
+pip install -i https://mirrors.aliyun.com/pypi/simple/ futures==3.0.4
 
 echo "========================================================================="
 echo "Ininstalling Oracle instant client"
@@ -75,12 +72,12 @@ echo "========================================================================="
 cd /
 tar -zxf src.tgz -C /plone/instance/
 rm src.tgz
-echo "========================================================================="
-echo "Running buildout -c buildout_emc.cfg"
-echo "========================================================================="
 
+echo "========================================================================="
+echo "Running buildout -c emc.cfg"
+echo "========================================================================="
 cd /plone/instance
-buildout -Nvvv -c buildout.cfg
+buildout -vvv -c emc.cfg
 
 echo "========================================================================="
 echo "Unininstalling $buildDeps"
@@ -103,8 +100,6 @@ echo "========================================================================="
 rm -rf /var/lib/apt/lists/*
 rm -rf /plone/buildout-cache/downloads/*
 rm -rf /tmp/*
-
-
 
 # Fix permissions
 find /data  -not -user plone -exec chown plone:plone {} \+
