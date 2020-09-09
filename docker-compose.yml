@@ -2,6 +2,8 @@ version: "3.8"
 services:
   varnish:
     image: eea-varnish:4.1
+    networks: 
+    - emc
     ports:
     - "8580:6081"
     - "6085:6085"
@@ -23,6 +25,8 @@ services:
 
   haproxy:
     image: eea-haproxy:1.8.22
+    networks: 
+    - emc
     ports:
     - 8581:5000
     - 1936:1936
@@ -35,6 +39,8 @@ services:
 
   plone:
     image: plone516-emc:5.0
+    networks: 
+    - emc
     depends_on:
     - zeoserver
     - oracledb
@@ -43,12 +49,17 @@ services:
 
   zeoserver:
     image: plone516-emc:5.0
+    networks: 
+    - emc
     command: zeo
     volumes:
     - data:/data
 
   oracledb:
     image: oracle/database:12.2.0.1-ee
+    networks: 
+    - emc
+
     volumes:
       - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
     ports:
