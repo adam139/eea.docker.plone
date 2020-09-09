@@ -1,72 +1,65 @@
-version: "2.1"
+version: "3.8"
 services:
-  shell:
-    image: "${IMAGE:-eeacms/plone}"
-    depends_on:
-      - memcached
-      - postfix
-      - zeo
-      - postgres
-    environment:
-      ZOPE_MODE: "${ZOPE_MODE:-zeo_client}"
-      TZ: "Europe/Copenhagen"
-    tty: true
-    stdin_open: true
-    command: cat
+  varnish:
+    image: eea-varnish:4.1
     ports:
-    - 3080:8080
+    - "8580:6081"
+    - "6085:6085"
+    depends_on:
+    - haproxy
+
+    environment:
+      BACKENDS: "haproxy"
+      BACKENDS_PORT: "8581"
+      DNS_ENABLED: "true"
+      BACKENDS_PROBE_INTERVAL: "3s"
+      BACKENDS_PROBE_TIMEOUT: "1s"
+      BACKENDS_PROBE_WINDOW: "3"
+      BACKENDS_PROBE_THRESHOLD: "2"
+      DASHBOARD_USER: "admin"
+      DASHBOARD_PASSWORD: "admin"
+      DASHBOARD_SERVERS: "varnish"
+      DASHBOARD_DNS_ENABLED: "true"
+
+  haproxy:
+    image: eea-haproxy:1.8.22
+    ports:
+    - 8581:5000
+    - 1936:1936
+    depends_on:
+    - plone
+    environment:
+      BACKENDS: "plone"
+      BACKENDS_PORT: "8080"
+      DNS_ENABLED: "True"
 
   plone:
-    image: "${IMAGE:-eeacms/plone}"
-    ports:
-    - "8080:8080"
+    image: plone516-emc:5.0
     depends_on:
-      - memcached
-      - postfix
-      - zeo
-      - postgres
+    - zeoserver
+    - oracledb
     environment:
-      ZOPE_MODE: "${ZOPE_MODE:-zeo_client}"
-      TZ: "Europe/Copenhagen"
+    - ZEO_ADDRESS=zeoserver:8200
 
-  zeo:
-    image: "${IMAGE:-eeacms/plone}"
-    environment:
-      ZOPE_MODE: "zeo"
-      TZ: "Europe/Copenhagen"
+  zeoserver:
+    image: plone516-emc:5.0
+    command: zeo
     volumes:
-      - zeo:/data
-    command:
-      - zeo
+    - data:/data
 
-  postgres:
-    image: eeacms/postgres:9.6-3.5
-    environment:
-      POSTGRES_DBNAME: "datafs zasync"
-      POSTGRES_DBUSER: "zope"
-      POSTGRES_DBPASS: "zope"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      TZ: "Europe/Bucharest"
+  oracledb:
+    image: oracle/database:12.2.0.1-ee
     volumes:
-    - postgres:/var/lib/postgresql/data
+      - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
+    ports:
+      - 1521:1521
+      - 8380:8080
+      - 5500:5500
 
-  memcached:
-    image: memcached:1.5.20
-    command:
-    - "-m"
-    - "1024"
-    environment:
-      TZ: "Europe/Copenhagen"
 
-  postfix:
-    image: eeacms/postfix:2.10-3.3
-    environment:
-      MTP_HOST: "example.com"
-      TZ: "Europe/Copenhagen"
+networks:
+  - emc
 
 volumes:
-  zeo:
-    driver: local
-  postgres:
+  data:
     driver: local
