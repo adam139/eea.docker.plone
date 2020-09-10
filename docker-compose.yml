@@ -1,5 +1,18 @@
 version: "3.8"
 services:
+  web:
+    image: nginx
+    networks: 
+    - emc
+    volumes:
+     - /opt/nginx/nginx.conf:/etc/nginx/nginx.conf
+     - /opt/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+     - "80:80"
+    environment:
+     - NGINX_HOST=emc.com
+     - NGINX_PORT=80
+
   varnish:
     image: eea-varnish:4.1
     networks: 
