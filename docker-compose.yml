@@ -61,7 +61,7 @@ services:
     - zeoserver
     - oracledb
     environment:
-    - ZEO_ADDRESS=zeoserver:8200
+    - ZEO_ADDRESS=zeoserver:8080
 
   plone2:
     image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:5.0
@@ -73,14 +73,14 @@ services:
     - zeoserver
     - oracledb
     environment:
-    - ZEO_ADDRESS=zeoserver:8200
+    - ZEO_ADDRESS=zeoserver:8080
 
   zeoserver:
     image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:5.0
     networks: 
     - emc
     ports:
-    - 8200:8200
+    - 8200:8080
     command: zeo
     volumes:
     - data:/data
