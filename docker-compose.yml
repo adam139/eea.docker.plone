@@ -10,6 +10,8 @@ services:
      - /opt/nginx/html:/usr/share/nginx/html
     ports:
      - "80:80"
+    depends_on:
+    - varnish
     environment:
      - NGINX_HOST=emc.com
      - NGINX_PORT=80
