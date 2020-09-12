@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   web:
-    image: nginx
+    image: registry.cn-hangzhou.aliyuncs.com/midd/nginx:1.19.2
     networks: 
     - emc
     volumes:
@@ -15,7 +15,7 @@ services:
      - NGINX_PORT=80
 
   varnish:
-    image: eea-varnish:4.1
+    image: registry.cn-hangzhou.aliyuncs.com/plone/varnish:4.1
     networks: 
     - emc
     ports:
@@ -38,7 +38,7 @@ services:
       DASHBOARD_DNS_ENABLED: "true"
 
   haproxy:
-    image: eea-haproxy:1.8.22
+    image: registry.cn-hangzhou.aliyuncs.com/midd/haproxy:1.8.22
     networks: 
     - emc
     ports:
