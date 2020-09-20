@@ -71,6 +71,7 @@ echo "========================================================================="
 
 cd /
 tar -zxf src.tgz -C /plone/instance/
+mv collective.wtf-1.0b11.tar.gz  /plone/buildout-cache/downloads/
 rm src.tgz
 
 echo "========================================================================="
