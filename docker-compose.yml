@@ -62,6 +62,7 @@ services:
     - oracledb
     environment:
     - ZEO_ADDRESS=zeoserver:8080
+    - CORS_ALLOW_ORIGIN=*
 
   zeoserver:
     image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:5.0
