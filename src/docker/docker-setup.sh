@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+SET_CONTAINER_TIMEZONE=true
+CONTAINER_TIMEZONE="Asia/Shanghai"
 
 buildDeps="
   build-essential
@@ -71,10 +73,21 @@ echo "========================================================================="
 
 cd /
 tar -zxf src.tgz -C /plone/instance/
-mv collective.wtf-1.0b11.tar.gz  /plone/buildout-cache/downloads/
 rm src.tgz
 
 echo "========================================================================="
+echo "setting timezone"
+echo "========================================================================="
+
+if [ "$SET_CONTAINER_TIMEZONE" = "true" ]; then
+    echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
+    ln -sf /usr/share/zoneinfo/${CONTAINER_TIMEZONE} /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+    echo "Container timezone set to: $CONTAINER_TIMEZONE"
+else
+    echo "Container timezone not modified"
+fi
+
 echo "Running buildout -c emc.cfg"
 echo "========================================================================="
 cd /plone/instance
