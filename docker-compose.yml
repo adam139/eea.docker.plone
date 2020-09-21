@@ -63,7 +63,8 @@ services:
     environment:
     - ZEO_ADDRESS=zeoserver:8080
     - CORS_ALLOW_ORIGIN=*
-
+    - SET_CONTAINER_TIMEZONE=true
+    - CONTAINER_TIMEZONE=Asia/Shanghai
   zeoserver:
     image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:5.0
     networks: 
