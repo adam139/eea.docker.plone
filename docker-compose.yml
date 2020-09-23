@@ -57,6 +57,10 @@ services:
     image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:6.0
     networks: 
     - emc
+    volumes:
+     - /opt/plone/src:/plone/instance/src
+     - /opt/plone/eggs:/plone/buildout-cache/eggs
+
     depends_on:
     - zeoserver
     - oracledb
@@ -65,6 +69,7 @@ services:
     - CORS_ALLOW_ORIGIN=*
     - SET_CONTAINER_TIMEZONE=true
     - CONTAINER_TIMEZONE=Asia/Shanghai
+
   zeoserver:
     image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:6.0
     networks: 
