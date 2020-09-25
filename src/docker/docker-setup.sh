@@ -88,8 +88,14 @@ else
     echo "Container timezone not modified"
 fi
 
+echo "========================================================================="
 echo "Running buildout -c emc.cfg"
 echo "========================================================================="
+echo "adjust base.cfg"
+
+sed -ri '/^ {4}zope_i18n_compile_mo_files true$/a\    PLONE_CSRF_DISABLED true\
+    TZ Asia/Shanghai\
+    zope_i18n_allowed_languages zh_CN en zh zh_TW' base.cfg
 cd /plone/instance
 buildout -vvv -c emc.cfg
 
