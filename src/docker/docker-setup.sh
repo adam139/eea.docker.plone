@@ -114,7 +114,8 @@ echo "========================================================================="
 rm -rf /var/lib/apt/lists/*
 rm -rf /plone/buildout-cache/downloads/*
 rm -rf /tmp/*
-
+#mkdir for bokeh temp dir
+mkdir -p  /data/tmp
 # Fix permissions
 find /data  -not -user plone -exec chown plone:plone {} \+
 find /plone -not -user plone -exec chown plone:plone {} \+
