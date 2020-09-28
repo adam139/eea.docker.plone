@@ -93,10 +93,12 @@ echo "Running buildout -c emc.cfg"
 echo "========================================================================="
 echo "adjust base.cfg"
 
+cd /plone/instance
 sed -ri '/^ {4}zope_i18n_compile_mo_files true$/a\    PLONE_CSRF_DISABLED true\
     TZ Asia/Shanghai\
     zope_i18n_allowed_languages zh_CN en zh zh_TW' base.cfg
-cd /plone/instance
+sed -ri '/^( {4})allow_origin=/c \    allow_origin="*"' buildout.cfg
+
 buildout -vvv -c emc.cfg
 
 echo "========================================================================="
