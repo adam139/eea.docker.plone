@@ -68,6 +68,11 @@ export LD_LIBRARY_PATH=$ORACLE_HOME:$LD_LIBRARY_PATH
 rm -rf *.zip
 
 echo "========================================================================="
+echo "create /data/tmp"
+echo "========================================================================="
+mkdir -p  /data/tmp || echo "create dir failed"
+
+echo "========================================================================="
 echo "untar src.tgz"
 echo "========================================================================="
 
@@ -122,8 +127,6 @@ echo "========================================================================="
 rm -rf /var/lib/apt/lists/*
 rm -rf /plone/buildout-cache/downloads/*
 rm -rf /tmp/*
-#mkdir for bokeh temp dir
-mkdir -p  /data/tmp
 # Fix permissions
 find /data  -not -user plone -exec chown plone:plone {} \+
 find /plone -not -user plone -exec chown plone:plone {} \+
