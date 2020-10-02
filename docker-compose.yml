@@ -54,7 +54,7 @@ services:
       DNS_ENABLED: "True"
 
   plone:
-    image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:6.2
+    image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:6.4
     networks: 
     - emc
     volumes:
@@ -71,7 +71,7 @@ services:
     - CONTAINER_TIMEZONE=Asia/Shanghai
 
   zeoserver:
-    image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:6.2
+    image: registry.cn-hangzhou.aliyuncs.com/plone/plone516-emc:6.4
     networks: 
     - emc
     ports:
